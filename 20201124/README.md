@@ -27,7 +27,7 @@ https://www.vultr.com/
 2. 프로세스 목록에서 원하는 프로그램(ex. 자바 찾기)
 - ps -aux | grep java
 3. 프로세스 죽이기
-- kill -9 <pid>
+- kill -9 pid
 4. 백그라운드로 프로세스 실행
 - nohup <실행할 명령 라인> &
 - nohup java -jar app.jar &
