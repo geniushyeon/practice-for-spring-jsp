@@ -22,7 +22,7 @@
 
 IoC(Inversion of Control): 제어의 역흐름
 
-스프링의 역
+스프링의 역할
 - IoC Container
 - Bean: 스프링에서 관리하는 객체. 라이프사이클 존재.
     - Component: 이 annotation이 붙으면 스프링이 관리함.
