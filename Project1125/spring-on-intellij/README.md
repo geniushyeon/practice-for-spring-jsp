@@ -76,7 +76,7 @@ public class Application {
 - Controller(RestController)
     - 요청과 응답에 대한 처리 수행
     - Controller: 페이지(템플릿 포함)로 응답
-    - RestController: RESTful, HTTP API 등의 처
+    - RestController: RESTful, HTTP API 등의 처리
 - Service
     - Infrastructure에 대한 처리
     - 도메인, 레포지토리 통합
