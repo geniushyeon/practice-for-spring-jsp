@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- html의 단점을 극복한 다목적 마크업 언어 -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="shop.jamielee.repository.UserRepository"> 
+<!-- CRUD -->
+	<insert id="createUser" parameterType="shop.jamielee.domain.User">
+		INSERT INTO users(id, email, password, joinedDate)
+		VALUES (user_id_pk_seq.nextval, #{email}, #{password}, #{joinedDate})
+		<!-- DB에서는 snake표기법 사용하기 -->
+	</insert>
+	
+	<select id="findById" resultType="shop.jamielee.domain.User">
+		SELECT * FROM users WHERE id= #{id}
+	</select>
+	<select id="findAll" resultType="shop.jamielee.domain.User">
+		SELECT * FROM users
+	</select>
+	
+	<update id="updateUser" parameterType="shop.jamielee.domain.User">
+	UPDATE users SET email= #{email}, password=#{password} 
+	WHERE id = #{id}
+	</update>
+	
+	
+	<delete id="deleteUser">
+	DELETE FROM users WHERE id=#{id}
+	</delete>
+</mapper>

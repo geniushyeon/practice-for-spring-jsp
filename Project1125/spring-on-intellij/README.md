@@ -4,6 +4,7 @@
 - [1. 용어 정리](#1-용어-정리)
 - [어노테이션](#어노테이션)
 - [2. 스프링 기본 사용 방법](#2-스프링-기본-사용-방법)
+  - [2.0. 의존성 주입](#20-의존성-주입)
   - [2.1. 컨트롤러](#21-컨트롤러)
     - [2.1.1. Controller](#211-controller)
     - [2.1.2. RestController](#212-restcontroller)
@@ -24,21 +25,23 @@ IoC(Inversion of Control): 제어의 역흐름
 
 스프링의 역할
 - IoC Container
-- Bean: 스프링에서 관리하는 객체. 라이프사이클 존재.
-    - Component: 이 annotation이 붙으면 스프링이 관리함.
-        - Controller
-        - RestController
-        - Service
-        - Repository
-        - etc.
-    - Bean을 등록하는 과정
-        - Spring Framework가 시작되면 등록할 클래스를 탐색하여(xml, Java Config(annotation)) IoC 컨테이너에 등록
-        - 기본적으로 싱글톤임
-    - DI(Dependency Injection): 의존성 관리
-    - AOP(Aspect-Oriented Programming)
-        - 횡단 관심사(Cross Concern): 모든레이어에 걸쳐 공통적으로 사용되는 모듈들
-            - 로깅(logging)
-            - 퍼포먼스 측
+  - Bean: 스프링에서 관리하는 객체. 라이프사이클 존재.
+      - `@Component`: 이 annotation이 붙으면 스프링이 관리함.
+          - `@Controller`
+          - `@RestController`
+          - `@Service`
+          - `@Repository`
+          - etc.
+      - `@Bean`
+        - 주로 외부 라이브러리를 사용할 때 사용
+      - Bean을 등록하는 과정
+          - Spring Framework가 시작되면 등록할 클래스를 탐색하여(xml, Java Config(annotation)) IoC 컨테이너에 등록
+          - 기본적으로 싱글톤임
+      - DI(Dependency Injection): 의존성 관리
+      - AOP(Aspect-Oriented Programming)
+          - 횡단 관심사(Cross Concern): 모든레이어에 걸쳐 공통적으로 사용되는 모듈들
+              - 로깅(logging)
+              - 퍼포먼스 측정
         
 # 어노테이션
 
@@ -88,6 +91,15 @@ public class Application {
     - 저장과 관련된 인터페이스
     - 인터페이스 구현체
     
+
+## 2.0. 의존성 주입
+
+- 생성자 주입 방식
+- `@Autowired`
+- `@Inject` (deprecated)
+
+
+
 ## 2.1. 컨트롤러
 이 레이어가 처리하는 일은 다음과 같다.
 - 요청과 응답 처리
