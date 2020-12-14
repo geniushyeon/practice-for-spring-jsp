@@ -234,7 +234,6 @@ var signInOut = function() {
 	</div>
 ```
 ## 2.5. signin.jsp
-미완성
 ```jsp
 <%@page import="shop.jamielee.MemberDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -244,7 +243,6 @@ var signInOut = function() {
 	String password = request.getParameter("password");
 	
 	// database에 존재 유무
-	// MemberDao, MemberVo 필요
 	
 	MemberDao memberDao = new MemberDao();
 	boolean b = memberDao.signin(id, password);
@@ -254,7 +252,10 @@ var signInOut = function() {
 	response.sendRedirect("../index.jsp");
 	
 	} else {
-		//로그인 실패 코드(미완성)
+		// 로그인 실패 
+		out.println("<script>alert('failed')");
+		out.println("location.href='../index.jsp'</script>");
+		// print로 쓰면 개행이 안되기 때문에 작동 X(println으로 쓸것)
 	}
 
 %>
@@ -269,7 +270,6 @@ var signInOut = function() {
 %>
 ```
 ## 2.7. MemberDao.java
-미완성
 ```java
 package shop.jamielee;
 
