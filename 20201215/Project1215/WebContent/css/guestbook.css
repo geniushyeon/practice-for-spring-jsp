@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+#guestbook {
+	width: 550px;
+	margin: auto;
+}
+
+#guestbook>#form_guestbook {
+	margin-bottom: 25px;
+	text-align: right;
+}
+
+#guestbook>#list .btns {
+	text-align: right;
+}
+
+#guestbook>#list .mid {
+	display: inline-block;
+	width: 200px;
+}
+
+#guestbook>#list .mdate {
+	display: inline-block;
+	width: 200px;
+}
+
+#guestbook>#list textarea {
+	width: 560px;
+}
+
+#guestbook>#list #item {
+	width: 550px;
+}
+
+#guestbook>#list .btns>input[type=button] {
+	font-size: 9pt;
+	color: #555;
+	border-radius: 15px;
+	border: 1px solid #aaa;
+}
