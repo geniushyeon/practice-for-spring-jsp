@@ -21,19 +21,19 @@
 		int score = 100;
 		
 		//전제 조건: setAttribute로 값 저장
-		pageContext.setAttribute("page_name", name);
-		pageContext.setAttribute("page_score", score);
+		pageContext.setAttribute("pageName", name);
+		pageContext.setAttribute("pageScore", score);
 		
-		request.setAttribute("req_name", name);
-		request.setAttribute("req_score", score);
+		request.setAttribute("reqName", name);
+		request.setAttribute("reqScore", score);
 		
 	%>
 	
 	<h3>c:out - jstl을 사용한 출력문</h3>
-	<li>Name: <c:out value="${pageScope.page_name }" default="이름을 입력하세요"/></li>
-	<li>Score: <c:out value="${pageScope.page_score }" default="0점"/></li>
-	<li>Name(req): <c:out value="${requestScope.req_name }" default="이름을 입력하세요"/></li>
-	<li>Score(req): <c:out value="${requestScope.req_score }" default="0점"/></li>
+	<li>Name: <c:out value="${pageScope.pageName }" default="이름을 입력하세요"/></li>
+	<li>Score: <c:out value="${pageScope.pageScore }" default="0점"/></li>
+	<li>Name(req): <c:out value="${requestScope.reqName }" default="이름을 입력하세요"/></li>
+	<li>Score(req): <c:out value="${requestScope.reqScore }" default="0점"/></li>
 	
 	<h3>c:set | c:remove | c:out</h3>
 	<c:set var="score" value="100"/>
@@ -43,7 +43,7 @@
 	
 	<h3>c:if</h3>
 	<li>
-		<c:if test="${req_score>90 }">
+		<c:if test="${reqScore>90 }">
 			<font color="red">장학생</font>
 		</c:if>
 	</li>
