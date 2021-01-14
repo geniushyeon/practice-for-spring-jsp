@@ -18,6 +18,39 @@ XML로 빌드해보자.
   - <enviroments/>: 데이터베이스 연결 정보와 같은 내용 기술
   - <mappers/>: SQL 문장들이 기술되어 있는 xml 파일들의 경로와 파일명 기술
 
+```java
+package board;
+
+import java.io.Reader;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+// Application.java와 같은 역할 
+public class BoardFactory {
+	private static SqlSessionFactory factory;
+	
+	
+	static {
+		try {
+			Reader reader = Resources.getResourceAsReader("board/config.xml");
+			factory = new SqlSessionFactoryBuilder().build(reader);
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	public static SqlSessionFactory getFactory() {
+		return factory;
+	}
+	
+}
+
+```
 ## 1.3. 환경설정
 ### 1.3.1. 프로퍼티 사용하지 않고 설정
 config.xml
@@ -74,4 +107,42 @@ password = oracle
 <property name="url" value="${url}"/>
 <property name="username" value="${username}"/>
 <property name="password" value="${password}"/>
+```
+
+
+수업시간 예제
+```xml
+<select id="all_serial" resultType="int">
+		SELECT serial FROM board <!-- 세미콜론 검지 --> 
+	</select>
+	
+	<select id="list" resultType="board.BoardVo">
+		SELECT * FROM board
+	</select>
+	
+	<select id="view" resultType="board.BoardVo" parameterType="int">
+		SELECT * FROM board WHERE serial=#{_parameter}
+		<!-- 정수형의 경우 ${_parameter}도 가능하지만 보안 상의 이유로 # 추천 -->
+	</select> 
+	
+	<select id="select" resultType="board.BoardVo" parameterType="String">
+		SELECT * FROM board WHERE subject LIKE '%${_parameter}%' or doc LIKE '%${_parameter}%'
+		<!-- sql문이므로 쌍따옴표 검지 -->
+	</select>
+
+	<insert id="insert" parameterType="board.BoardVo">
+		INSERT INTO board(serial, id, subject, doc) VALUES(seq_board.nextval, #{id}, #{subject}, #{doc})
+		
+	</insert>
+	
+	<update id="update" parameterType="board.BoardVo">
+		UPDATE board SET subject=#{subject}, doc=#{doc} WHERE serial=#{serial} AND password=#{password}
+		
+	</update>
+	
+	<delete id="delete" parameterType="board.BoardVo">
+		DELETE FROM board WHERE serial=#{serial} AND password=#{password}
+		
+	
+	</delete>
 ```
