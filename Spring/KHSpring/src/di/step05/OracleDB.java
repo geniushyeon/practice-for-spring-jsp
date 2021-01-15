@@ -1,15 +1,14 @@
-package di.step03;
+package di.step05;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-public class DataBase implements DB {
+public class OracleDB implements DB {
 
 	@Override
 	public List<String> select(String id) {
-		List<String> list = new Vector<>();
-		list.add("오라클에서 처리된 결과");
-		
+		List<String> list = new ArrayList<>();
+		list.add("OracleDB " + id);
 		return list;
 	}
 
@@ -30,6 +29,5 @@ public class DataBase implements DB {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
 	
 }

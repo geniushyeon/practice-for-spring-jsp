@@ -4,13 +4,14 @@
 <!-- xmlns : namespace -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
 	   http://www.springframework.org/schema/beans
 	   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"> 
 	   
-	<bean id="db" class="di.step05.MyDB"></bean>
-	
+	<!-- bean id="객체명" db=context.getBean("db", DB.class); -->
+	<bean id="db" class="di.annotation.MyDB"></bean>
+	<bean id="dao" class="di.annotation.MemberDao" autowire="constructor"></bean>
 
 
 </beans>

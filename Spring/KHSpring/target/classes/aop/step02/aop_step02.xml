@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	   http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"> 
+
+	<bean id="boardDao" class="aop.step02.BoardDao"></bean>
+	<bean id="memberDao" class="aop.step02.MemberDao"></bean>
+	<bean id="salesDao" class="aop.step02.SalesDao"></bean>
+	
+	<!-- 의존성 주입 -->
+	<bean id="advice" class="aop.step02.Advice">
+		<constructor-arg ref="boardDao"></constructor-arg>
+	</bean>
+
+</beans>
