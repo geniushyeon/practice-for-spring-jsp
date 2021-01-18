@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	   http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<bean id="boardDao" class="aop.step03.BoardDao"></bean>
+	<bean id="memberDao" class="aop.step03.MemberDao"></bean>
+	<bean id="salesDao" class="aop.step03.SalesDao"></bean>
+
+	<!-- 의존성 주입 -->
+	<bean id="advice" class="aop.step03.Advice"></bean>
+	<!-- spring aop -->
+	<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="boardDao"></property>
+		<property name="interceptorNames">
+			<list>
+				<value>advisor</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="advisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice" ref="advice"></property>
+		<property name="pointcut">
+			<bean class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+				<property name="patterns">
+					<list>
+						<value>.*insert.*</value>
+						<value>.*delete.*</value>
+						<value>.*update.*</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+
+	</bean>
+
+</beans>
