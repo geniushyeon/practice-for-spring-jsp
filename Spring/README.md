@@ -285,3 +285,92 @@ public class Application {
 
 </beans>
 ```
+
+# 20200119
+# 1. AspectJ 라이브러리를 이용한 AOP
+- after-returning: advice가 실행된 후 리턴값을 활용
+- after-throwing: 예외가 실행된 이후
+
+## 1.1. xml 파일에 추가
+- 1. <beans> 태그 안에 추가
+```xml
+<beans xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/context
+	   http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	   
+	   http://www.springframework.org/schema/aop
+	   http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+```
+- 2. aspcetj aop 추가
+```xml
+<aop:config>
+ 	<aop:aspect id="aspect" ref="advice">
+		<!-- Pointcut 표현식 -->
+		<aop:pointcut 
+			expression="execution(* select(..))" 
+			id="pointcut"/>
+		<aop:after method="signinCheck" pointcut-ref="pointcut"/>
+	</aop:aspect>
+		
+	<aop:aspect id="around" ref="advice">
+		<aop:pointcut expression="execution(* insert(..))" id="aroundPointcut"/>
+		<aop:around method="around" pointcut-ref="aroundPointcut"/>
+	</aop:aspect>
+</aop:config>
+```
+
+## 1.2. Pointcut 표현식
+```text
+execution(...)
+
+괄호 안에
+[접근제한자 패턴][리턴값 패턴][패키지 패턴] 메소드이름패턴(파라미터패턴)
+
+ex)
+expression="execution(* select(..))"
+- 메소드명이 select면 실행
+expression="execution(public * aop.aspect .. *(..))" 
+- 접근제한자 public, 모든 반환형, aop_aspect 패키지 안에 있는 모든 메소드, 모든 매개변수 유형
+```
+
+## 1.3. Advice 클래스 만들기
+```java
+package aop.aspectj;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+
+public class Advice {
+	
+	// before
+	public boolean signinCheck(JoinPoint joinpoint) {
+		// 로그인 여부를 판단하는 프로세스 
+		System.out.println("signin check");
+		
+		return true;
+	}
+	
+	// around
+	public Object around(ProceedingJoinPoint pJoinPoint) throws Throwable {
+		System.out.println(log());
+		
+		Object o = pJoinPoint.proceed();
+		System.out.println(log());
+		
+		return o;
+	}
+
+	private String log() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd(E) hh:mm:ss:SS");
+		
+		return sdf.format(new Date());
+	}
+	
+}
+```
+- around advice일 때는 ProceedingJoinPoint를 매개변수로 설정해주고, `proceed()` 메소드 실행
+  - 그 외에는 JoinPoint를 매개변수로 설정한다.

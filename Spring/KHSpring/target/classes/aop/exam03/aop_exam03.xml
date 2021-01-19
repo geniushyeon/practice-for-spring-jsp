@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+	   http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	   
+	   http://www.springframework.org/schema/context
+	   http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	   
+	   http://www.springframework.org/schema/aop
+	   http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+	<!-- bean 등록 -->
+	<bean id="tvProduct" class="aop.exam03.TvProduct"></bean>
+	<bean id="phoneProduct" class="aop.exam03.PhoneProduct"></bean>
+	<bean id="radioProduct" class="aop.exam03.RadioProduct"></bean>
+	<bean id="advice" class="aop.exam03.AdviceProduct"></bean>
+
+	<!-- aspectj aop -->
+	<aop:config>
+		<aop:aspect id="after" ref="advice">
+			<aop:pointcut expression="execution(* select(..))" id="pointcut"/>
+			<aop:after method="afterAdvice" pointcut-ref="pointcut"/>
+		</aop:aspect>
+	
+		<aop:aspect id="before" ref="advice">
+			<aop:pointcut expression="execution(* insert(..))" id="beforeAdvice"/>
+			<aop:before method="signinCheck" pointcut-ref="beforeAdvice"/>
+		</aop:aspect>
+	</aop:config>
+
+</beans>
