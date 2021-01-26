@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+	<!-- 테이블의 컬럼명과 vo 객체의 필드명이 서로 다른 경우 -->
+	<!-- result column="테이블컬럼명" property="vo필드명" -->
+	<!-- <resultMap type="memberVo" id="member_vo"> <result column="member_id" 
+		property="memberId"/> <result column="member_name" property="memberName"/> 
+		</resultMap> -->
+
+	<!-- selectlist -->
+	<select id="select" resultType="memberVo" parameterType="page">
+		SELECT * FROM (
+			SELECT ROWNUM no, m.* FROM (
+				SELECT * FROM members
+				<where>
+					<foreach collection="findStrList" item="v" open="(" close=")"
+						separator="OR">
+						mid LIKE '%${v}%' OR phonenumber LIKE '%${v}%' OR address
+						like '%${v}% OR email LIKE '%${v}%'
+					</foreach>
+				</where>
+				ORDER BY name ASC) m
+		) WHERE no BETWEEN #{startNo} AND #{endNo}
+
+	</select>
+	<!-- paging -->
+	<!-- 동적 SQL : 검색어 여러 개 들어올 때 -->
+	<select id="totalListSize" parameterType="page"
+		resultType="Integer">
+
+		SELECT COUNT(mid) cnt FROM members
+		<where>
+			<foreach collection="findStrList" item="v" open="(" close=")"
+				separator="OR">
+				mid LIKE '%${v}%' OR phonenumber LIKE '%${v}%' OR address
+				like '%${v}% OR email LIKE '%${v}%'
+			</foreach>
+		</where>
+
+
+
+	</select>
+
+	<insert id="insert" parameterType="memberVo">
+		INSERT INTO members(mid,
+		password, name, email, phonenumber, zipcode, address, photo, mdate)
+		VALUES (#{mid}, #{password}, #{name}, #{email}, #{phonenumber},
+		#{zipcode}, #{address}, #{photo}, SYSDATE)
+	</insert>
+
+	<update id="update" parameterType="memberVo">
+		UPDATE members SET name = #{name}, email = #{email}, zipcode =
+		#{zipcode}, address = #{address}, phonenumber = #{phonenumber}
+		<if test="#{photo} != null">
+			, photo = #{photo}
+		</if>
+		WHERE mid = #{mid} AND password = #{password}
+	</update>
+
+	<delete id="delete" parameterType="memberVo">
+		DELETE FROM members WHERE mid
+		= #{mid} AND password = #{password}
+	</delete>
+	<!-- selectone -->
+	<select id="view" parameterType="String" resultType="memberVo">
+		SELECT *
+		FROM members WHERE mid=#{_parameter}
+	</select>
+</mapper>   

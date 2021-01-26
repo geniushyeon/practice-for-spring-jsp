@@ -18,18 +18,22 @@
 	<bean id="tvProduct" class="aop.exam03.TvProduct"></bean>
 	<bean id="phoneProduct" class="aop.exam03.PhoneProduct"></bean>
 	<bean id="radioProduct" class="aop.exam03.RadioProduct"></bean>
-	<bean id="advice" class="aop.exam03.AdviceProduct"></bean>
-
+	
+	<bean id="afterAdvice" class="aop.exam03.AfterAdvice"></bean>
+	<bean id="beforeAdvice" class="aop.exam03.BeforeAdvice"></bean>
 	<!-- aspectj aop -->
+	<!-- casting 가능하게 해주는 코드 -->
+	<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+	
 	<aop:config>
-		<aop:aspect id="after" ref="advice">
-			<aop:pointcut expression="execution(* select(..))" id="pointcut"/>
-			<aop:after method="afterAdvice" pointcut-ref="pointcut"/>
+		<aop:aspect id="after" ref="afterAdvice">
+			<aop:pointcut expression="execution(* select(..))" id="afterPointcut"/>
+			<aop:after method="log" pointcut-ref="afterPointcut"/>
 		</aop:aspect>
 	
-		<aop:aspect id="before" ref="advice">
-			<aop:pointcut expression="execution(* insert(..))" id="beforeAdvice"/>
-			<aop:before method="signinCheck" pointcut-ref="beforeAdvice"/>
+		<aop:aspect id="before" ref="beforeAdvice">
+			<aop:pointcut expression="execution(* insert(..)) || execution(* update(..)) || execution(* delete(..)))" id="beforePointcut"/>
+			<aop:before method="check" pointcut-ref="beforePointcut"/>
 		</aop:aspect>
 	</aop:config>
 

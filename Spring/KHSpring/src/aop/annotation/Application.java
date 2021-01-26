@@ -1,4 +1,4 @@
-package aop.exam03;
+package aop.annotation;
 
 import java.util.List;
 
@@ -9,13 +9,16 @@ public class Application {
 	
 	public Application() {
 		ApplicationContext context = 
-				new FileSystemXmlApplicationContext("src/aop/exam03/aop_exam03.xml");
+				new FileSystemXmlApplicationContext("src/aop/annotation/aop_annotation.xml");
 		
 		Product product = (Product) context.getBean("tvProduct");
 		
 		String findStr = "";
 		List<String> list = product.select(findStr);
+		System.out.println(list);
 		
+		int i = product.insert(findStr);
+		System.out.println(i);
 	}
 	
 	

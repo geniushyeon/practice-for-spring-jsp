@@ -374,3 +374,92 @@ public class Advice {
 ```
 - around advice일 때는 ProceedingJoinPoint를 매개변수로 설정해주고, `proceed()` 메소드 실행
   - 그 외에는 JoinPoint를 매개변수로 설정한다.
+
+# 20210120
+
+# Annotation을 이용한 AOP
+
+# Spring MVC
+
+# 20210121
+
+# Spring MVC 응용
+
+- 임의의 두 수의 합을 출력하는 페이지를 만들어보자.
+### 첫번째 코드
+1. Controller
+```java
+@RequestMapping(value = "/sum.do", method = RequestMethod.GET)
+public ModelAndView printSum() {
+	ModelAndView mv = new ModelAndView();
+	StringBuffer sb = new StringBuffer();
+		
+	int a = (int)(Math.random() * 100);
+	int b = (int)(Math.random() * 100);
+		
+	String sum = String.format("%d + %d = %d", a, b, a+b);
+	sb.append(sum);
+
+	mv.setViewName("sum_result");
+	mv.addObject("sum", sb.toString());
+		
+	return mv;
+}
+```
+2. View
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>두 수의 합계 출력</title>
+</head>
+<body>
+<h2>Result</h2>
+${sum }
+</body>
+</html>
+```
+- 처음에는 이렇게 했었는데, Controller와 View의 경계가 모호해지는 것 같아서(눈에 보이는 것도 Controller가 그리고 있음) 좀 더 확실히 나누기로 했다.
+
+### 두번째 코드
+1. Controller
+```java
+@RequestMapping(value = "/sum.do", method = RequestMethod.GET)
+public ModelAndView printSum() {
+	ModelAndView mv = new ModelAndView();
+		
+	int a = (int)(Math.random() * 100);
+	int b = (int)(Math.random() * 100);
+		
+	int sum = a + b;
+		
+
+	mv.setViewName("sum_result");
+	mv.addObject("a", a);
+	mv.addObject("b", b);
+	mv.addObject("sum", sum);
+		
+	return mv;
+}
+```
+2. View
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>두 수의 합계 출력</title>
+</head>
+<body>
+<h2>Result</h2>
+<p>${a } + ${b } = ${sum }</p>
+</body>
+</html>
+```
+
+## MVC로 회원관리 만들어보기
