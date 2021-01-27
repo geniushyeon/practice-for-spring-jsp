@@ -66,7 +66,9 @@ h2 {
 			<div id="search_zone">
 				<input type="text" id="search_box" name="findStr" value="${param.findStr }"/>
 				<input type="button" value="검색" id="btnFind"/>
-			</div>
+				<input type="text" name="nowPage" value="${(empty param.nowPage)? 1 : param.nowPage }"/>
+				<input type="text" name="mid"/>
+ 			</div>
 		</form>
 	</div> 
 	<hr/>
@@ -95,7 +97,7 @@ h2 {
 		<div class="card_zone">
 		<c:forEach var="v" items="${list }">
 			<img alt="" src="http://placehold.it/80x130">
-			<div id="info_zone">
+			<div id="info_zone" onclick="view(${v.mid})">
 				<div class="detail_info_zone">
 					<label>아이디</label>
 					<span>${v.mid }</span>

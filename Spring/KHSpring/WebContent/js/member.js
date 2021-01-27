@@ -32,7 +32,7 @@ var member = function(){
 			
 		}
 	}
-	m
+	
 	
 	if(btnUpdate != null){
 		btnUpdate.onclick = function(){

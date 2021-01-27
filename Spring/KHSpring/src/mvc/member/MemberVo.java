@@ -1,5 +1,7 @@
 package mvc.member;
 
+import java.util.Date;
+
 public class MemberVo {
 	private String mid;
 	private String password;
@@ -73,7 +75,6 @@ public class MemberVo {
 	public void setJoinedDate(String joinedDate) {
 		this.joinedDate = joinedDate;
 	}
-	
 	
 	
 }

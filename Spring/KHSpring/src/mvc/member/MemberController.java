@@ -1,7 +1,8 @@
 package mvc.member;
-
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MemberController {
 	Dao dao;
+	FileUpload fileUpload;
+	
 	
 	public MemberController() {
 		
@@ -58,4 +61,36 @@ public class MemberController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "view.mem", method = RequestMethod.POST)
+	public ModelAndView view(MemberVo memberVo) {
+		ModelAndView mv = new ModelAndView();
+		
+		memberVo = dao.view(memberVo.getMid());
+		
+		mv.addObject("memberVo", memberVo);
+		mv.setViewName("view");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value = "insert.mem", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView insert() {
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("insert");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value = "insertResult.mem", method = RequestMethod.POST)
+	public ModelAndView insertResult(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+		fileUpload = new FileUpload(request);
+		MemberVo memberVo = fileUpload.getMember();
+		Page page = fileUpload.getPage();
+		
+		mv.setViewName("insert_result");
+		mv.addObject("message", "회원정보가 정상적으로 저장되었습니다.");
+		return mv;
+	}
 }
