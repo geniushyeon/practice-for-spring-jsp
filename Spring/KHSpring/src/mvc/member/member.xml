@@ -13,7 +13,7 @@
 		</resultMap> -->
 
 	<!-- selectlist -->
-	<select id="select" resultType="memberVo" parameterType="page">
+	<select id="select" parameterType="page" resultType="memberVo">
 		SELECT * FROM (
 			SELECT ROWNUM no, m.* FROM (
 				SELECT * FROM members
@@ -21,7 +21,7 @@
 					<foreach collection="findStrList" item="v" open="(" close=")"
 						separator="OR">
 						mid LIKE '%${v}%' OR phonenumber LIKE '%${v}%' OR address
-						like '%${v}% OR email LIKE '%${v}%'
+						like '%${v}%' OR email LIKE '%${v}%' OR name LIKE '%${v}%'
 					</foreach>
 				</where>
 				ORDER BY name ASC) m
@@ -38,12 +38,10 @@
 			<foreach collection="findStrList" item="v" open="(" close=")"
 				separator="OR">
 				mid LIKE '%${v}%' OR phonenumber LIKE '%${v}%' OR address
-				like '%${v}% OR email LIKE '%${v}%'
+				like '%${v}%' OR email LIKE '%${v}%' OR name LIKE '%${v}%'
 			</foreach>
 		</where>
-
-
-
+		
 	</select>
 
 	<insert id="insert" parameterType="memberVo">
@@ -56,7 +54,7 @@
 	<update id="update" parameterType="memberVo">
 		UPDATE members SET name = #{name}, email = #{email}, zipcode =
 		#{zipcode}, address = #{address}, phonenumber = #{phonenumber}
-		<if test="#{photo} != null">
+		<if test="photo != null"><!-- ${photo} 검지 -->
 			, photo = #{photo}
 		</if>
 		WHERE mid = #{mid} AND password = #{password}

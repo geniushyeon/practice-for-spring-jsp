@@ -1,7 +1,5 @@
 package mvc.member;
 
-import java.util.Date;
-
 public class MemberVo {
 	private String mid;
 	private String password;

@@ -93,4 +93,23 @@ public class MemberController {
 		mv.addObject("message", "회원정보가 정상적으로 저장되었습니다.");
 		return mv;
 	}
+	
+	@RequestMapping(value = "deleteResult.mem", method = RequestMethod.POST)
+	public ModelAndView delete(MemberVo memberVo) {
+		ModelAndView mv = new ModelAndView();
+		
+		return mv;
+		
+	}
+	
+	public ModelAndView modify(MemberVo memberVo) {
+		ModelAndView mv = new ModelAndView();
+		
+		memberVo = dao.view(memberVo.getMid());
+		
+		mv.addObject("memberVo", memberVo);
+		mv.setViewName("modify");
+		
+		return mv;
+	}
 }

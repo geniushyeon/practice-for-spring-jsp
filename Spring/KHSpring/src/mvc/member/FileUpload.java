@@ -28,8 +28,7 @@ public class FileUpload {
 				oriFile = multipartRequest.getOriginalFileName(tag); //원본 파일명
 			}
 
-
-		}catch(Exception ex) {
+		} catch (Exception ex) {
 			System.out.println("FileUpload 생성자");
 			ex.printStackTrace();
 		}

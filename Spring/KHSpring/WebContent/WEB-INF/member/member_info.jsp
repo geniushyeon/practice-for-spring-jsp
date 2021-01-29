@@ -61,7 +61,7 @@ h2 {
 <div id=member>
 	<h2>회원관리</h2>
 	<div>
-		<form name="frm_member" id="frm_member" method="POST" action="insertR.mem">
+		<form name="frm_member" id="frm_member" method="POST" action="insertResult.mem">
 			<input type="button" value="입력" id="btnInsert"/>
 			<div id="search_zone">
 				<input type="text" id="search_box" name="findStr" value="${param.findStr }"/>
@@ -74,30 +74,9 @@ h2 {
 	<hr/>
 	<div id="select_zone">
 		<div class="card_zone">
-			<img alt="" src="http://placehold.it/80x130">
-			<div id="info_zone">
-				<div class="detail_info_zone">
-					<label>아이디</label>
-					<input type="text" disabled/>
-				</div>
-				<div class="detail_info_zone">
-					<label>성명</label>
-					<input type="text" disabled/>
-				</div>
-				<div class="detail_info_zone">
-					<label>연락처</label>
-					<input type="text" disabled/>
-				</div>
-				<div class="detail_info_zone">
-					<label>이메일</label>
-					<input type="email" disabled/>
-				</div>
-			</div>
-		</div>
-		<div class="card_zone">
 		<c:forEach var="v" items="${list }">
 			<img alt="" src="http://placehold.it/80x130">
-			<div id="info_zone" onclick="view(${v.mid})">
+			<div id="info_zone" onclick="member.view('${v.mid}')">
 				<div class="detail_info_zone">
 					<label>아이디</label>
 					<span>${v.mid }</span>
@@ -115,8 +94,8 @@ h2 {
 					<span>${v.email }</span>
 				</div>
 			</div>
-		</div>
 		</c:forEach>
+		</div>
 	</div>
 	
 	<div id="paging_zone">
@@ -135,5 +114,7 @@ h2 {
 	</c:if>
 	</div>
 </div>
+<script src="./js/member.js"></script>
+<script>member()</script>
 </body>
 </html>

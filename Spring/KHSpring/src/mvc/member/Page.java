@@ -29,6 +29,16 @@ public class Page {
 		this.nowPage = nowPage;
 		pageCompute();
 	}
+	
+	// 검색어를 띄어쓰기로 분리해서 가져옴
+	public List<String> getFindStrList() {
+		if (findStr != null) {
+			String[] temp = findStr.split(" ");
+			findStrList.addAll(Arrays.asList(temp));
+		}
+
+		return findStrList;
+	}
 
 	public void pageCompute() {
 		totalPage = (int)(Math.ceil(totalListSize/(double)listSize));
@@ -123,14 +133,6 @@ public class Page {
 	public void setFindStr(String findStr) {
 		this.findStr = findStr;
 	}
-	
-	public List<String> getFindStrList() {
-		if (findStr != null) {
-			String[] temp = findStr.split(" ");
-			findStrList.addAll(Arrays.asList(temp));
-		}
 
-		return findStrList;
-	}
 
 }

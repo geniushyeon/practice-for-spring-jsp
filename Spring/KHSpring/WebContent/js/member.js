@@ -19,17 +19,20 @@ var member = function(){
 	if(btnDelete != null){
 		btnDelete.onclick = function(){
 			var frm = document.frm_member;
-			//var pwd = prompt("회원정보를 삭제하시려면 암호를 입력하세요");
-			var win = window.open('./member/input_pwd.jsp', 'win', 'width=400px, height=100px, left=300px, top=300px');
+			var passwordZone = getID("passwordZone");
+			var btnPassword = getID("btnPassword");
 			
-			win.onbeforeunload = function(){
-				if(frm.pwd.value != ''){
-					frm.action = 'delete.mem';
+			passwordZone.style.display = "block";
+			
+			btnPassword.onclick = function() {
+				passwordZone.style.display = "none";
+				if(frm.password.value != ''){
 					frm.mid.disabled = false;
-					frm.submit();
+					member.delete("delete_result.mem");
+					
 				}
+				
 			}
-			
 		}
 	}
 	
@@ -37,22 +40,18 @@ var member = function(){
 	if(btnUpdate != null){
 		btnUpdate.onclick = function(){
 			var frm = document.frm_member;
-
-			//암호와 암호확인의 일치여부
-			/*
-			var pwd = prompt("회원정보를 수정하시려면 암호를 입력하세요");
-			if(pwd == null){
-				return;
-			}
-			frm.pwd.value = pwd;
-			*/
 			
-			var win = window.open('./member/input_pwd.jsp', 'win', 'width=400px, height=100px, left=300px, top=300px');
-			win.onbeforeunload = function(){
-				if(frm.pwd.value != ''){
-					frm.enctype = 'multipart/form-data';
-					frm.action = 'update.mem'; //수정된 정보를 저장
-					frm.submit();
+			var passwordZone = getID("passwordZone");
+			var btnPassword = getID("btnPassword");
+			
+			passwordZone.style.display = "block";
+			
+			btnPassword.onclick = function() {
+				passwordZone.style.display = "none";
+				if(frm.password.value != ''){
+					frm.mid.disabled = false;
+					member.delete("modify_result.mem");
+					
 				}
 			}
 		}
@@ -62,8 +61,7 @@ var member = function(){
 		btnModify.onclick = function(){
 			var frm = document.frm_member;
 			frm.mid.disabled=false;
-			frm.action = 'modify.mem';//수정화면이동
-			frm.submit();
+			member.select("modify.mem");
 		}
 	}
 	
@@ -84,9 +82,7 @@ var member = function(){
 			}
 		}
 	}
-	
-	
-	
+
 	
 	// 다음 우편번호 검색 API를 사용한 주소 찾기
 	if(btnFindZip != null){
@@ -108,40 +104,8 @@ var member = function(){
 			var frm = document.frm_member;
 			var checkFlag = true;
 			
-			/* example(html 태그에 pattern속성 미 사용시)
-			var reg_mid = /[\w!$\-]{4,10}/;
-			if( !reg_mid.test(frm.mid.value) ){
-				alert('mid');
-				checkFlag=false;
-			}
-			*/
-			
-			if(!frm.mid.checkValidity()){
-				alert('mid');
-				checkFlag=false;
-			}else if(!frm.name.checkValidity()){
-				alert('name');
-				checkFlag=false;
-			}else if(!frm.pwd.checkValidity()){
-				alert('pwd');
-				checkFlag=false;
-			}else if(!frm.email.checkValidity()){
-				alert('email');
-				checkFlag=false;
-			}else if(!frm.phone.checkValidity()){
-				alert('phone');
-				checkFlag=false;
-			}
-			
-			//암호와 암호확인의 일치여부
-			if(frm.pwd.value != frm.pwdConfirm.value){
-				alert('암호를 확인해 주소~');
-				return;
-			}
 			if(checkFlag){
-				frm.enctype = 'multipart/form-data';
-				frm.action = 'insertR.mem';
-				frm.submit();
+				member.update("insert_result.mem");
 			}
 		}
 	}
@@ -150,8 +114,7 @@ var member = function(){
 	if(btnSelect != null){
 		btnSelect.onclick = function(){
 			var frm = document.frm_member;
-			frm.action = 'member_info.mem';
-			frm.submit();
+			member.select("select.mem");
 		}
 	}
 	
@@ -159,9 +122,8 @@ var member = function(){
 	if(btnFind != null){
 		btnFind.onclick = function(){
 			var frm = document.frm_member;
-			frm.action = "member_info.mem";
 			frm.nowPage.value = 1;
-			frm.submit();
+			member.select();
 		}
 	}
 	
@@ -169,23 +131,59 @@ var member = function(){
 	//$('#btnInsert').on('click', function(){ ... });
 	if(btnInsert != null){
 		btnInsert.onclick = function(){
-			var frm = document.frm_member;
-			frm.action = 'insert.mem';
-			frm.submit();
+			member.select("insert.mem");
 		}
 	}
 }//end of member()
 
-function goPage(page){
+member.goPage = function(page){
 	var frm = document.frm_member;
-	frm.action = 'member_info.mem';
 	frm.nowPage.value = page;
-	frm.submit();
+	member.select();
 }
 
-function view(mid){
+member.view = function(mid){
 	var frm = document.frm_member;
-	frm.action = 'view.mem';
 	frm.mid.value = mid;
-	frm.submit();
+	member.select("view.mem");
+}
+
+member.select = function(url) {
+	
+	if (url == null) {
+		url = "select.mem";
+	}
+	
+	$param = $("#frm_member").serialize();
+	
+	$.ajax({
+		url : url,
+		data : $param,
+		dataType : 'html',
+		method : 'POST',
+		success : function(data) {
+			$("#result").html(data);
+		}
+		
+	});
+}
+
+// 입력, 수정
+member.update = function(url) {
+	var formData = new FormData($("#frm_member")[0]);
+	
+	$.ajax({
+		url : url,
+		data : formData,
+		dataType : 'html',
+		method : 'POST',
+		enctype : 'multipart/form-data',
+		contentType : false,
+		processData : false,
+		success : function(data) {
+			$("#result").html(data);
+			
+		}
+	});
+	
 }
